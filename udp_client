@@ -1,0 +1,21 @@
+import socket
+import sys
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+server_address = ('localhost', 17)
+message = 'quote request'
+
+try:
+    # Send data
+    print >>sys.stderr, 'requesting quote...'
+    sent = sock.sendto(message, server_address)
+
+    # Receive response
+    print >>sys.stderr, 'waiting to receive quote...'
+    data, server = sock.recvfrom(4096)
+    print >>sys.stderr, 'Quote of the Day: "%s"' % data
+
+finally:
+    print >>sys.stderr, 'closing socket'
+    sock.close()
